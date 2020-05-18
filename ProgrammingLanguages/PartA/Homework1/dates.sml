@@ -63,22 +63,28 @@ fun what_month(day : int) =
 	number_before_reaching_sum(day, days_in_month) + 1
     end
 
+(* Returns true if value exits in a list. *)
+fun exists(lst : int list, n : int) =
+    if null lst then false
+    else if hd lst = n then true
+    else exists(tl lst, n)
+
 (* Returns an int list of months between 2 days. *)
 fun month_range(day1 : int, day2 : int) =
     if day1 > day2 then []
-    else  what_month(day1) :: month_range(day1 + 1, day2)
+    else what_month(day1) :: month_range(day1 + 1, day2)
+
 
 (* Returns NONE if the list is empty and SOME d if the date d is the oldest date in the list. *)
-fun oldest(dates : (int*int*int list)) =
+fun oldest(dates : (int*int*int) list)=
     if null dates then NONE
     else
 	let
 	    val tail_answer = oldest(tl dates)
 	in
-	    if isSome tail_answer andaslo is_older(valOf tail_answer, hd dates) then tail_answer
+	    if isSome tail_answer andalso is_older(valOf tail_answer, hd dates) then tail_answer
 	    else SOME (hd dates)
 	end
-
 
 (* Returns true if the date is reasonable *)
 fun reasonable_date(d : int*int*int) =
