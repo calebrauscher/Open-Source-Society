@@ -52,8 +52,6 @@ fun similar_names(subs : string list list, {first:string,middle:string,last:stri
 	helper(first_names)
     end
 	
-
-	
 (* you may assume that Num is always used with values 2, 3, ..., 10
    though it will not really come up *)
 datatype suit = Clubs | Diamonds | Hearts | Spades
@@ -66,3 +64,12 @@ datatype move = Discard of card | Draw
 exception IllegalMove
 
 (* put your solutions for problem 2 here *)
+(* (a) Returns the color of the card. Spades and clubs are black, diamonds and hearts are red *)
+fun card_color(c, _) =
+    case c of
+	Clubs => Black
+     |  Spades => Black
+     | Diamonds  => Red
+     |  Hearts  => Red 
+				   
+	      
