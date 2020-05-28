@@ -72,4 +72,51 @@ fun card_color(c, _) =
      | Diamonds  => Red
      |  Hearts  => Red 
 				   
-	      
+(* (b) Returns the cards value (numbered cards have their number as the value, aces are 11, everything else is 10) *)
+fun card_value(_, rank) =
+    case rank of
+	Jack => 10
+      | Queen  => 10
+      | King  =>  10
+      | Ace  => 11
+      | Num value => value
+
+(* (c) Returns a list that has all the elements of the provided list except for the provided card. If the card is in the list more than once only remove 1. If the card is not in the list raise the exception. *)
+fun remove_card(cs : card list, c : card, e) =
+    let fun filter_cards (cards : card list) =
+	    case cards of
+		[] => []
+	      | x :: xs => if x=c then xs
+			   else x :: filter_cards(xs)
+	val filtered_cards = filter_cards(cs)
+    in
+	if filtered_cards = cs then raise e
+	else filtered_cards
+    end
+	
+(* (d) Returns true if all the cards in the list are the same color. *)
+fun all_same_color(cards: card list) =
+    case cards of
+	[] => true
+     |  x :: [] => true
+     | head :: (neck::rest) => if card_color(head) = card_color(neck)
+			    then all_same_color(neck :: rest)
+			    else false
+
+(* (e) Returns the sum of the card values. *)
+fun sum_cards(cards : card list) =
+    let fun aux(cards, acc) =
+	    case cards of
+		[] => acc
+	      | head :: rest => aux(rest, card_value(head)+acc)
+    in
+	aux(cards, 0)
+    end
+
+(* (f) Returns the score of the hand *)
+fun score(cards: card list, goal : int) =
+    
+	
+	  
+
+				    
