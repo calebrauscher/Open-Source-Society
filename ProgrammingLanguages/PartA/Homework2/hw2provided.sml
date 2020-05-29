@@ -113,10 +113,27 @@ fun sum_cards(cards : card list) =
 	aux(cards, 0)
     end
 
-(* (f) Returns the score of the hand *)
+(* (f) Returns the score of the hand. If the sum of the hand is greater than the goal then the score is 3 times sum-goal. If the sum of the hand is les than the goal then the scoe is goal-sum. The score is the preliminary score unless all the held-cards are the same color, in which case the score is the preliminary score divided by 2.*)
 fun score(cards: card list, goal : int) =
-    
+    let val sum = sum_cards(cards)
+	val preliminary_score = if sum > goal then 3 * (sum-goal) else (goal - sum)
+    in
+	if all_same_color(cards) then preliminary_score div 2 else preliminary_score
+    end
 	
-	  
-
-				    
+(* (g) Write a function officiate, which “runs a game.” It takes a card list (the card-list) a move list
+(what the player “does” at each point), and an int (the goal) and returns the score at the end of the
+game after processing (some or all of) the moves in the move list in order. Use a locally defined recursive
+helper function that takes several arguments that together represent the current state of the game. As
+described above:
+• The game starts with the held-cards being the empty list.
+• The game ends if there are no more moves. (The player chose to stop since the move list is empty.)
+• If the player discards some card c, play continues (i.e., make a recursive call) with the held-cards
+not having c and the card-list unchanged. If c is not in the held-cards, raise the IllegalMove
+exception.
+• If the player draws and the card-list is (already) empty, the game is over. Else if drawing causes
+the sum of the held-cards to exceed the goal, the game is over (after drawing). Else play continues
+with a larger held-cards and a smaller card-list. *)
+fun officiate(cards : card list, moves : move list, goal: int) =
+						  
+						  
