@@ -134,6 +134,22 @@ exception.
 • If the player draws and the card-list is (already) empty, the game is over. Else if drawing causes
 the sum of the held-cards to exceed the goal, the game is over (after drawing). Else play continues
 with a larger held-cards and a smaller card-list. *)
-fun officiate(cards : card list, moves : move list, goal: int) =
+fun officiate(cards : card list, moves : move list, goal : int) =
+    let fun game(hand : card list, moves : move list, remaining_cards : card list) =
+	    case moves of
+		[] => score(hand, goal)
+	      | x::x' => case x of
+			    Discard card => game(remove_card(hand, card, IllegalMove), x', remaining_cards)
+			  | Draw => case remaining_cards of
+					[] => score(hand, goal)
+				      | y::y' => let val new_hand = y::hand in
+						     if sum_cards(new_hand) > goal then score(new_hand, goal)
+						     else game(new_hand, x', y')
+						 end
+    in
+	game([], moves, cards)
+    end
+	
+							
 						  
 						  
